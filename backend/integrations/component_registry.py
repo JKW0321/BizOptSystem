@@ -1,0 +1,81 @@
+from __future__ import annotations
+
+
+COMPONENT_REGISTRY = {
+    "spreadsheet_grid": {
+        "name": "类 Excel 可编辑表格",
+        "recommended": "Tabulator",
+        "license": "MIT",
+        "fit": "strong",
+        "source_url": "https://www.tabulator.info/",
+        "use_cases": ["项目工时填报", "资金计划半月填报", "KPI 完成值填报", "批量导入预览和纠错"],
+        "integration_mode": "frontend_adapter",
+        "adapter": "static/js/integrations/spreadsheet-grid.js",
+        "business_boundary": "组件只负责表格交互、复制粘贴、单元格编辑和基础校验；累计比例、小时上限、权限和成本计算仍由后端业务模块控制。",
+        "alternatives": ["AG Grid Community", "Luckysheet"],
+    },
+    "charting": {
+        "name": "经营分析可视化图表",
+        "recommended": "Apache ECharts",
+        "license": "Apache-2.0",
+        "fit": "strong",
+        "source_url": "https://echarts.apache.org/",
+        "use_cases": ["经营驾驶舱", "绩效看板", "资金执行情况", "商机阶段漏斗", "项目健康度分析"],
+        "integration_mode": "frontend_adapter",
+        "adapter": "static/js/integrations/report-builder.js",
+        "business_boundary": "组件负责图形渲染；指标口径、数据范围和钻取权限由后端接口和语义层提供。",
+        "alternatives": ["Chart.js", "Vega-Lite"],
+    },
+    "dashboard_layout": {
+        "name": "拖拽式看板布局",
+        "recommended": "GridStack.js",
+        "license": "MIT",
+        "fit": "strong",
+        "source_url": "https://gridstackjs.com/",
+        "use_cases": ["经营分析报表编排", "总经理驾驶舱自定义", "业务组看板自定义"],
+        "integration_mode": "frontend_adapter",
+        "adapter": "static/js/integrations/report-builder.js",
+        "business_boundary": "组件负责卡片拖拽、缩放和布局保存；卡片可见性和数据权限由角色权限控制。",
+        "alternatives": ["React Grid Layout"],
+    },
+    "advanced_grid": {
+        "name": "高级数据网格",
+        "recommended": "AG Grid Community",
+        "license": "MIT for community packages; enterprise features are commercial",
+        "fit": "conditional",
+        "source_url": "https://www.ag-grid.com/",
+        "use_cases": ["大规模台账筛选", "复杂表头", "固定列", "分组汇总"],
+        "integration_mode": "frontend_adapter",
+        "adapter": "future",
+        "business_boundary": "仅在 Tabulator 无法满足复杂台账时使用；避免误用商业版功能。",
+        "alternatives": ["Tabulator"],
+    },
+    "embedded_bi": {
+        "name": "嵌入式 BI 平台",
+        "recommended": "Apache Superset",
+        "license": "Apache-2.0",
+        "fit": "phase_2",
+        "source_url": "https://superset.apache.org/",
+        "use_cases": ["复杂自助分析", "跨表探索", "高频经营分析报表"],
+        "integration_mode": "external_service_embedding",
+        "adapter": "future",
+        "business_boundary": "适合作为二期增强；MVP 仍保留系统内置驾驶舱，避免过早引入独立 BI 权限和数据同步复杂度。",
+        "alternatives": ["Metabase for quick embedding, but review AGPL/commercial terms before production use"],
+    },
+    "llm_assist": {
+        "name": "LLM 辅助分析和导入",
+        "recommended": "Provider-neutral HTTP gateway",
+        "license": "N/A",
+        "fit": "strong",
+        "source_url": "backend/llm/gateway.py",
+        "use_cases": ["Excel 字段映射", "导入错误解释", "经营问题归因", "报表摘要生成"],
+        "integration_mode": "backend_gateway",
+        "adapter": "backend/llm/gateway.py",
+        "business_boundary": "模型只做辅助建议，不直接越权读写业务数据；写入动作必须经过业务接口校验和用户确认。",
+        "alternatives": ["OpenAI-compatible APIs", "私有化大模型服务"],
+    },
+}
+
+
+def component_registry_snapshot() -> dict:
+    return {"components": COMPONENT_REGISTRY}

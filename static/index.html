@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>经营管理系统 MVP</title>
+    <link rel="stylesheet" href="/styles.css?v=20260704-timesheet-v1" />
+  </head>
+  <body>
+    <section id="loginScreen" class="login-screen" hidden>
+      <form id="loginForm" class="login-card">
+        <div class="brand login-brand">
+          <div class="brand-mark">BI</div>
+          <div>
+            <strong>经营管理系统</strong>
+            <span>账号登录</span>
+          </div>
+        </div>
+        <label class="field">
+          <span>用户名</span>
+          <input name="username" autocomplete="username" placeholder="例如 sunning" />
+        </label>
+        <label class="field">
+          <span>密码</span>
+          <input name="password" type="password" autocomplete="current-password" value="123456" />
+        </label>
+        <button class="primary" type="submit">登录</button>
+        <div id="loginError" class="login-error"></div>
+        <div class="demo-accounts">
+          <span>演示账号</span>
+          <button type="button" data-demo-login="sunning">系统管理员</button>
+          <button type="button" data-demo-login="lijing">经营管理</button>
+          <button type="button" data-demo-login="wangchen">业务组总监</button>
+          <button type="button" data-demo-login="wangguoquan">项目经理</button>
+        </div>
+      </form>
+    </section>
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">BI</div>
+        <div>
+          <strong>经营管理系统</strong>
+          <span>MVP</span>
+        </div>
+      </div>
+      <nav class="nav" id="nav"></nav>
+    </aside>
+
+    <main class="app">
+      <header class="topbar">
+        <div>
+          <h1 id="pageTitle">经营驾驶舱</h1>
+          <p id="pageSubtitle">基于商机和项目执行数据形成经营预测、KPI 和调度闭环</p>
+        </div>
+        <div class="account-box">
+          <span id="accountName">未登录</span>
+          <strong id="accountRole">-</strong>
+          <button class="table-action" id="logoutButton">退出</button>
+        </div>
+      </header>
+
+      <section id="content"></section>
+    </main>
+
+    <dialog id="editDialog">
+      <form method="dialog" id="editForm">
+        <header>
+          <h2 id="editTitle">编辑</h2>
+          <button value="cancel" class="icon-button" title="关闭">×</button>
+        </header>
+        <div id="editFields" class="form-grid"></div>
+        <footer>
+          <button value="cancel" class="secondary">取消</button>
+          <button value="save" class="primary">保存</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <aside id="detailDrawer" class="drawer" aria-hidden="true"></aside>
+
+    <dialog id="panoramaDialog" class="wide-dialog">
+      <header>
+        <h2>全景组织架构图</h2>
+        <button value="cancel" class="icon-button" title="关闭" data-close-panorama>×</button>
+      </header>
+      <div id="panoramaContent" class="panorama-body"></div>
+    </dialog>
+
+    <dialog id="lotDetailDialog" class="wide-dialog">
+      <header>
+        <h2 id="lotDetailTitle">全览</h2>
+        <button value="cancel" class="icon-button" title="关闭" data-close-lot-detail>×</button>
+      </header>
+      <div id="lotDetailContent" class="lot-detail-body"></div>
+    </dialog>
+
+    <script src="/app.js?v=20260704-timesheet-v1"></script>
+  </body>
+</html>
