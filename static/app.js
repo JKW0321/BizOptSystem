@@ -558,14 +558,14 @@ function renderDashboard() {
   const data = state.data.dashboard;
   const content = document.querySelector("#content");
   content.innerHTML = `
-    <section class="dashboard-widget-grid grid-stack">
+    <section class="dashboard-widget-grid">
       ${data.cards.map((card, index) => `
-        <div class="grid-stack-item" gs-x="${(index % 4) * 3}" gs-y="${Math.floor(index / 4)}" gs-w="3" gs-h="1">
+        <div class="dashboard-widget" data-widget-index="${index}" gs-x="${(index % 4) * 3}" gs-y="${Math.floor(index / 4) * 2}" gs-w="3" gs-h="2">
           <div class="grid-stack-item-content">${renderCard(card)}</div>
         </div>
       `).join("")}
     </section>
-    <section class="grid two-col" style="margin-top:16px">
+    <section class="dashboard-chart-grid">
       <div class="panel">
         <div class="panel-header"><h2>KPI 完成</h2><span class="status">${data.user.role_name || roleNames[data.user.role] || data.user.role}</span></div>
         <div class="panel-body chart-panel-body">
@@ -610,19 +610,23 @@ async function enhanceDashboardIntegrations(data) {
   try {
     const { createChart, createDashboardLayout } = await import("/js/integrations/report-builder.js");
     const layoutEl = document.querySelector(".dashboard-widget-grid");
-    if (layoutEl) {
-      await createDashboardLayout(layoutEl, { cellHeight: 88, margin: 8 });
+    if (layoutEl && window.innerWidth >= 1180) {
+      layoutEl.classList.add("grid-stack");
+      layoutEl.querySelectorAll(".dashboard-widget").forEach((item) => item.classList.add("grid-stack-item"));
+      await createDashboardLayout(layoutEl, { cellHeight: 76, margin: 10 });
       layoutEl.classList.add("integrated");
     }
     const kpiEl = document.querySelector("#dashboardKpiChart");
     if (kpiEl && data.kpi?.length) {
-      await createChart(kpiEl, dashboardKpiChartOption(data.kpi));
+      const chart = await createChart(kpiEl, dashboardKpiChartOption(data.kpi));
       kpiEl.closest(".chart-panel-body")?.classList.add("chart-ready");
+      setTimeout(() => chart.resize(), 60);
     }
     const opportunityEl = document.querySelector("#dashboardOpportunityChart");
     if (opportunityEl && data.opportunityStages?.length) {
-      await createChart(opportunityEl, dashboardOpportunityChartOption(data.opportunityStages));
+      const chart = await createChart(opportunityEl, dashboardOpportunityChartOption(data.opportunityStages));
       opportunityEl.closest(".chart-panel-body")?.classList.add("chart-ready");
+      setTimeout(() => chart.resize(), 60);
     }
   } catch (error) {
     console.warn("驾驶舱开源组件加载失败，使用基础图表。", error);

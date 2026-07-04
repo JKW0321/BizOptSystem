@@ -1947,31 +1947,54 @@ dialog footer {
 }
 
 .dashboard-widget-grid {
-  min-height: 184px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(176px, 1fr));
+  gap: 12px;
+  align-items: stretch;
+  margin-bottom: 16px;
+}
+
+.dashboard-widget-grid.grid-stack {
+  display: block;
+  min-height: 172px;
 }
 
 .dashboard-widget-grid .grid-stack-item-content {
   inset: 0;
   border-radius: 8px;
+  overflow: visible;
+}
+
+.dashboard-widget-grid:not(.grid-stack) .dashboard-widget {
+  min-width: 0;
 }
 
 .dashboard-widget-grid .card {
   height: 100%;
-  min-height: 0;
+  min-height: 88px;
 }
 
 .dashboard-widget-grid.integrated .card {
   cursor: move;
 }
 
+.dashboard-chart-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+
 .chart-panel-body {
-  min-height: 280px;
+  min-height: 320px;
+  padding: 10px 12px 14px;
 }
 
 .dashboard-chart {
   display: none;
-  height: 280px;
+  height: 310px;
   width: 100%;
+  min-width: 0;
 }
 
 .chart-panel-body.chart-ready .dashboard-chart {
@@ -2384,6 +2407,7 @@ dialog {
   .org-chart-filter,
   .org-chart-layout,
   .timesheet-toolbar,
+  .dashboard-chart-grid,
   .contract-summary,
   .contract-frame-shell,
   .outsourcing-picker,
